@@ -26,9 +26,9 @@ class MathCalc:
                         
         self.Ft = Ft
         self.V = V
-        self.D = D
+        self.D = D 
 
-        self.P_out = (Ft * V) / 1000 if P_out is None else P_out
+        self.P_out = (Ft * V) if P_out is None else P_out
         self.n_out = (60 * V * 1000) / (math.pi * D) if n_out is None else n_out
         self.T_out = (0.5 * Ft * D * 10 ** -3) if t_out is None else t_out
         self.P_ed = (self.Ft * self.V) if P_ed is None else P_ed
