@@ -33,6 +33,8 @@ class MathCalc:
         self.T_out = (0.5 * Ft * D * 10 ** -3) if t_out is None else t_out
         self.P_ed = (self.Ft * self.V) if P_ed is None else P_ed
 
+        P_ed_kilo = self.P_ed / 1000
+
         if n_ed is None:
             engine_data = [
                 (0.37, 0.55, 1357, '71А4'),
@@ -49,13 +51,13 @@ class MathCalc:
             ]
 
             for min_val, max_val, n_ed_value, type_engine_value in engine_data:
-                if min_val < self.P_ed <= max_val:
+                if min_val < P_ed_kilo <= max_val:
                     self.n_ed = n_ed_value
                     self.type_engine = type_engine_value
                     break
 
                 else:
-                    if self.P_ed <= 0.37:
+                    if P_ed_kilo <= 0.37:
                         print(f'Error P_ed too low. P_ed: {self.P_ed}')
                         self.type_engine = 'error'
                         self.n_ed = 'error'
