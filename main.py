@@ -8,7 +8,7 @@ class MathCalc:
     Args:
         Ft (int): тяговое усилие на приводном барабане транспортера
         V (float): скорость ленты транспортера
-        D (int): диаметр приводного барабана
+        D (int): диаметр приводного барабана в мм
         P_out (float): энергетическая характеристика
         n_out (float): частота вращение приводного вала конвейера
         T_out (float): вращающий момент
@@ -26,7 +26,7 @@ class MathCalc:
                         
         self.Ft = Ft
         self.V = V
-        self.D = D 
+        self.D = 1000 / D 
 
         self.P_out = (Ft * V) if P_out is None else P_out
         self.n_out = (60 * V * 1000) / (math.pi * D) if n_out is None else n_out
