@@ -21,18 +21,16 @@ class MathCalc:
     """
     def __init__(self, Ft=3, V=0.85, D=315, P_out=None, n_out=None, t_out=None, P_ed=None, n_ed=None, n_our=None,
         types_gear=[{'count': 3, 'coef_gear': 0.99}, {'count': 1, 'coef_gear': 0.98},
-                    {'count': 1, 'coef_gear': 0.97}], i_our=None, P_db=None, u=None):
+                    {'count': 1, 'coef_gear': 0.97}],
+        i_our=None, P_db=None, u=None):
                         
         self.Ft = Ft
         self.V = V
         self.D = D
 
         self.P_out = (Ft * V) / 1000 if P_out is None else P_out
-
         self.n_out = (60 * V * 1000) / (math.pi * D) if n_out is None else n_out
-
         self.T_out = (0.5 * Ft * D * 10 ** -3) if t_out is None else t_out
-
         self.P_ed = (self.Ft * self.V) if P_ed is None else P_ed
 
         if n_ed is None:
@@ -55,11 +53,13 @@ class MathCalc:
                     self.n_ed = n_ed_value
                     self.type_engine = type_engine_value
                     break
+
                 else:
                     if self.P_ed <= 0.37:
                         print(f'Error P_ed too low. P_ed: {self.P_ed}')
                         self.type_engine = 'error'
                         self.n_ed = 'error'
+
         else:
             self.n_ed = n_ed
 
@@ -76,9 +76,7 @@ class MathCalc:
             self.n_our = n_our
 
         self.i_our = self.n_ed / self.n_out if i_our is None else i_our
-
         self.P_db = self.P_ed / self.n_out if P_db is None else P_db
-
         self.u = self.n_ed / self.n_out if u is None else u
 
     def __repr__(self):
@@ -92,7 +90,7 @@ class MathCalc:
             (f'T_out: {self.T_out} Кн*мм -- вращающий момент'),
             (f'P_ed: {self.P_ed} кВт -- мощность электродвигателя'),
             (f'n_ed: {self.n_ed} мин**-1 -- частота электродвигателя'),
-            (f'type_engine: {self.type_engine} тип двигателя'),
+            (f'type_engine: {self.type_engine} -- тип двигателя'),
             (f'n_our: {self.n_our} -- КПД'),
             (f'i_our: {self.i_our} общее передаточное отношения привода'),
             (f'P_db: {self.P_db} кВт -- требуемая мощность двигателя'),
