@@ -1,0 +1,16 @@
+CalcScreen{
+    align: center middle;
+}
+
+DataTable{
+    width: 100%;
+    height: 100%;
+}
+
+#container_calc {
+    margin-left: 22;
+    align: center middle;
+    border: tall grey;
+    width: 40;
+    height: 18;
+}

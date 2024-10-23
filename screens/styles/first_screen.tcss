@@ -1,0 +1,63 @@
+FirstScreen{
+    align: center middle;
+}
+
+#container_main {
+    width: 55%;
+    height: 61%;
+    border: tall #C5C6C7;
+    content-align: center middle;
+}
+
+#container_head{
+    width: 100%;
+    height: auto;
+    background: $panel;
+}
+
+.error {
+    text-style: bold;
+}
+
+.error #static_error {
+    display: block;
+}
+
+#container_body {
+    height: 13;
+}
+
+#container_input{
+    height: 12;
+    dock: bottom;
+}
+
+#button_start{
+    dock: left;
+    margin-left: 7;
+}
+
+#demo_button{
+    margin-right: 7;
+    dock: right;
+}
+
+#container_buttons{
+    margin-top: 1;
+}
+
+#static_error {
+    dock: top;
+    color: #e74c3c;
+    display: None;
+    margin-left: 2;
+}
+
+#static_label{
+    margin-top: 1;
+    content-align: center middle;
+}
+
+.error{
+
+}
