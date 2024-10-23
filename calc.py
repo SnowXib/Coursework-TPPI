@@ -26,9 +26,9 @@ class MathCalc:
                     {'count': 1, 'coef_gear': 0.97}],
         i_our=None, P_db=None, u=None, T_dv=None, u_op=None):
 
-        self.error = {}
-
         U_CP = 5.5 
+
+        self.error = {}
                         
         self.Ft = Ft * 1000
         self.V = V
@@ -157,6 +157,7 @@ class MathCalc:
             (f'error: {self.error} описание ошибки'),
             ('==============================='),
         ])
+    
     
     def __iter__(self):
         """
