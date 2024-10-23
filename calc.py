@@ -19,14 +19,16 @@ class MathCalc:
         P_db (float): требуемая мощность двигателя
         u (float): общее передаточное число
         u_op (float): передаточное число открытой цилиндрической передачи
-        error (str): информация о ошибках
+        error (dict): информация о ошибках
     """
     def __init__(self, Ft=3, V=0.85, D=315, P_out=None, n_out=None, t_out=None, P_ed=None, n_ed=None, n_our=None,
         types_gear=[{'count': 3, 'coef_gear': 0.99}, {'count': 1, 'coef_gear': 0.98},
                     {'count': 1, 'coef_gear': 0.97}],
         i_our=None, P_db=None, u=None, T_dv=None, u_op=None):
 
-        self.error = {'Error': 'Ошибок не было найдено'}
+        self.error = {}
+
+        U_CP = 5.5 
                         
         self.Ft = Ft * 1000
         self.V = V
@@ -85,7 +87,7 @@ class MathCalc:
         self.P_db = self.P_ed / self.n_out if P_db is None else P_db
         self.u = self.n_ed / self.n_out if u is None else u
 
-        u_op_raw = self.u / 6 if u_op is None else u_op # 6 представляет константу u_cp
+        u_op_raw = self.u / U_CP if u_op is None else u_op
 
         # ГОСТ 2185-66
         u_op_gost = [
@@ -123,21 +125,16 @@ class MathCalc:
                 if u_op_raw < 0:
                     self.error['u_op'] = f'Error u_op_raw is too low. u_op: {u_op_raw}'
                     self.u_op = 'error'
-                elif diff_u > 12.5:
+                elif u_op_raw > 12.5:
                     self.error['u_op'] = f'Error u_op_raw is too huge. u_op: {u_op_raw}'
                     self.u_op = 'error'
 
-        u_f = 6 * self.u_op
+        u_f = U_CP * self.u_op
 
-        diff_u = abs((u_f - u)/(u)) * 100 # Отклонение фактического общего передаточного числа
+        diff_u = abs((u_f - self.u)/(self.u)) * 100 # Отклонение фактического общего передаточного числа
 
         if diff_u > 6:
             self.error['diff_u'] = f'Error diff_u is too huge. diff_u: {diff_u}'
-        
-
-        
-
-
 
 
     def __repr__(self):
@@ -157,6 +154,7 @@ class MathCalc:
             (f'P_db: {self.P_db} кВт -- требуемая мощность двигателя'),
             (f'u: {self.u} общее передаточное число'),
             (f'u_op: {self.u_op} передаточное число открытой цилиндрической передачи'),
+            (f'error: {self.error} описание ошибки'),
             ('==============================='),
         ])
     
@@ -173,4 +171,4 @@ class MathCalc:
 print('Demo режим, для его изменения явно укажите параметры класса')
 calc = MathCalc()
 
-print(*dict(calc).keys())
+print(calc)
