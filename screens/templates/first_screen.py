@@ -22,9 +22,9 @@ class FirstScreen(Screen):
             Container(
                 Static(renderable='Ошибка формы', id='static_error'),
                 Container(
-                    Input(placeholder='Ft в Кн', id='input_ft'),
-                    Input(placeholder='V в м/c', id='input_v'),
-                    Input(placeholder='D в мм', id='input_d'),
+                    Input(placeholder='Ft в Кн', tooltip='Значение в кН, действующее на приводной барабан транспортера.', id='input_ft'),
+                    Input(placeholder='V в м/c', tooltip='Скорость движения ленты в м/с.', id='input_v'),
+                    Input(placeholder='D в мм', tooltip='Диаметр приводного барабана транспортера в м.', id='input_d'),
                     Input(placeholder='Передачи в необходимом формате', tooltip='Формат: [{"count": 3, "coef_gear": 0.99}]', id='input_types_gear'),
                     id='container_input'
                     ),

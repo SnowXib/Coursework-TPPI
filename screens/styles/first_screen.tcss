@@ -3,8 +3,8 @@ FirstScreen{
 }
 
 #container_main {
-    width: 55%;
-    height: 61%;
+    width: 80;
+    height: 28;
     border: tall #C5C6C7;
     content-align: center middle;
 }
