@@ -1,3 +1,6 @@
+![Static Badge](https://img.shields.io/badge/python_version-3.x-brightgreen?style=flat-square)
+![Static Badge](https://img.shields.io/badge/release-alpha-red?style=flat-square)
+![Static Badge](https://img.shields.io/badge/textual%20version-0.81.0-purple?style=flat-square)
 ```
     ___            __          ______    ____     ____     ____
    /   |  __  __  / /_  ____  /_  __/   / __ \   / __ \   /  _/
@@ -5,9 +8,6 @@
  / ___ |/ /_/ / / /_  / /_/ / / /     / ____/  / ____/  _/ /
 /_/  |_|\__,_/  \__/  \____/ /_/     /_/      /_/      /___/
 ```
-![Static Badge](https://img.shields.io/badge/python_version-3.x-brightgreen?style=flat-square)
-![Static Badge](https://img.shields.io/badge/release-alpha-red?style=flat-square)
-![Static Badge](https://img.shields.io/badge/textual%20version-0.81.0-purple?style=flat-square)
 
 # AutoTPPI
 
