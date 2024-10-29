@@ -1,3 +1,14 @@
+![Static Badge](https://img.shields.io/badge/python_version-3.x-brightgreen?style=flat-square)
+![Static Badge](https://img.shields.io/badge/release-alpha-red?style=flat-square)
+![Static Badge](https://img.shields.io/badge/textual%20version-0.81.0-purple?style=flat-square)
+```
+    ___            __          ______    ____     ____     ____
+   /   |  __  __  / /_  ____  /_  __/   / __ \   / __ \   /  _/
+  / /| | / / / / / __/ / __ \  / /     / /_/ /  / /_/ /   / /
+ / ___ |/ /_/ / / /_  / /_/ / / /     / ____/  / ____/  _/ /
+/_/  |_|\__,_/  \__/  \____/ /_/     /_/      /_/      /___/
+```
+
 # AutoTPPI
 
 `AutoTPPI` — это TUI-программа (текстовый пользовательский интерфейс), разработанная для выполнения расчетов, необходимых для курсовой работы, связанных с тяговыми усилиями, скоростью ленты, мощностью двигателя и другими характеристиками транспортера. Программа построена на библиотеке Textual, предоставляющей удобный интерфейс для взаимодействия.
@@ -75,6 +86,11 @@ git clone https://github.com/SnowXib/Coursework-TPPI
 
 ```bash
 pip install -r requirements.txt
+```
+Если у вас проблемы с установкой, в частности ошибка  `pip не является внутренней или внешней
+командой`, то воспользуйтесь следующей командой
+```bash
+py -m pip install -r requirements.txt
 ```
 
 3. Запустите программу `AutoTPPI` с помощью следующей команды:
