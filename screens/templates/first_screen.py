@@ -3,6 +3,7 @@ from textual.widgets import Button, Static, Input
 from textual.screen import Screen
 from art import text2art
 from textual import on
+import json
 
 from screens.templates.calc_screen import CalcScreen
 from calc import MathCalc
@@ -40,14 +41,18 @@ class FirstScreen(Screen):
 
     @on(Button.Pressed, '#button_start')
     def on_button_start_pressed(self) -> None:
-        input_ft = self.query_one('#input_ft', Input)
-        input_v = self.query_one('#input_v', Input)
-        input_d = self.query_one('#input_d', Input)
-        input_types_gear = self.query_one('#input_types_gear', Input)
+        input_ft = float(self.query_one('#input_ft', Input).value)
+        input_v = float(self.query_one('#input_v', Input).value)
+        input_d = float(self.query_one('#input_d', Input).value)
+        input_types_gear = self.query_one('#input_types_gear', Input).value
+
+        input_types_gear = input_types_gear.replace("'", '"')
+
+        input_types_gear = json.loads(input_types_gear)
 
         self.add_class('error')
 
-        if input_ft.value and input_v.value and input_d.value:
+        if input_ft and input_v and input_d:
             calc = MathCalc(Ft=input_ft, V=input_v, D=input_d, types_gear=input_types_gear)
             self.app.push_screen(CalcScreen(calc=calc))
         else:
