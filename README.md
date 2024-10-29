@@ -76,6 +76,11 @@ git clone https://github.com/SnowXib/Coursework-TPPI
 ```bash
 pip install -r requirements.txt
 ```
+```bash
+py -m pip install -r requirements.txt
+```
+*если верхняя команда не сработала по причине "pip не является внутренней или внешней
+командой"
 
 3. Запустите программу `AutoTPPI` с помощью следующей команды:
 
