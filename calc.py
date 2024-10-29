@@ -1,4 +1,5 @@
 import math
+from art import text2art
 
 
 class MathCalc:
@@ -32,7 +33,7 @@ class MathCalc:
                         
         self.Ft = Ft * 1000
         self.V = V
-        self.D = 1000 / D 
+        self.D = D / 1000 
 
         self.P_out = (Ft * V) if P_out is None else P_out
         self.n_out = (60 * V * 1000) / (math.pi * D) if n_out is None else n_out
@@ -172,4 +173,6 @@ class MathCalc:
 print('Demo режим, для его изменения явно укажите параметры класса')
 calc = MathCalc()
 
+label  = text2art("AutoTPPI", font='slant')
+print(label)
 print(calc)
