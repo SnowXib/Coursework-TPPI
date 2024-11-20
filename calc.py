@@ -1,5 +1,6 @@
 import math
 from art import text2art
+from random import random
 
 
 class MathCalc:
@@ -22,10 +23,12 @@ class MathCalc:
         u_op (float): передаточное число открытой цилиндрической передачи
         error (dict): информация о ошибках
     """
-    def __init__(self, Ft=3, V=0.85, D=315, P_out=None, n_out=None, t_out=None, P_ed=None, n_ed=None, n_our=None,
-        types_gear=[{'count': 3, 'coef_gear': 0.99}, {'count': 1, 'coef_gear': 0.98},
-                    {'count': 1, 'coef_gear': 0.97}],
-        i_our=None, P_db=None, u=None, T_dv=None, u_op=None):
+    def __init__(self, scheme_type='Б',Ft=3, V=0.85, D=315, P_out=None, n_out=None, t_out=None, P_ed=None, n_ed=None, n_our=None,
+        types_gear=[{'count': 1, 'coef_gear': 0.98},
+                    {'count': 1, 'coef_gear': 0.97}, 
+                    {'count': 1, 'coef_gear': 0.95}, 
+                    {'count': 1, 'coef_gear': 0.99}],
+        i_our=None, P_db=None, u=None, T_dv=None, u_op=None, i_reducer=None, type_gear='Зубчатая цилиндрическая', type_reducer='Зубчатый цилиндрический'):
 
         U_CP = 5.5 
 
@@ -85,7 +88,7 @@ class MathCalc:
             self.n_our = n_our
 
         self.i_our = self.n_ed / self.n_out if i_our is None else i_our
-        self.P_db = self.P_ed / self.n_out if P_db is None else P_db
+        self.P_db = self.P_ed / self.n_our if P_db is None else P_db
         self.u = self.n_ed / self.n_out if u is None else u
 
         u_op_raw = self.u / U_CP if u_op is None else u_op
@@ -137,6 +140,41 @@ class MathCalc:
         if diff_u > 6:
             self.error['diff_u'] = f'Error diff_u is too huge. diff_u: {diff_u}'
 
+        i_op_table = {'Зубчатая цилиндрическая': (4.0, 8.0),
+                      'Зубчатая коническая': (2.0, 4.0),
+                      'Цепная': (1.5, 5.0),
+                      'С зубчатым ремнем': (2.0, 8.0),
+                      'Клино-ременная': (2.0, 4.0),
+                      'Плоско-ременная': (2.0, 2.0)}
+        
+        i_reducer_table = {'Зубчатый цилиндрический': (1.6, 8.0),
+                           'Зубчатый конический': (1.0, 6.3),
+                           'Зубчатый планетарный': (3.15, 8.0),
+                           'Зубчатый волновой': (70.0, 320.0),
+                           'Червячный': (8.0, 63.0)}
+
+        i_op_state = i_op_table[type_gear]
+        i_op = i_op_state[1]
+
+        target_i_reducer_state = i_reducer_table[type_reducer]
+        correct_bool = False
+
+        while i_op > i_op_state[0]:
+            i_reducer = self.i_our / i_op
+
+            if target_i_reducer_state[0] <= i_reducer <= target_i_reducer_state[1]:
+                self.i_reducer = i_reducer
+                correct_bool = True
+                break
+            else:
+                i_op-=0.1
+        
+        if not correct_bool:
+            self.error['i_reducer'] = f'There is no suitable one i_op in range {i_op_state}'
+        
+            
+            
+
 
     def __repr__(self):
         return '\n|-'.join([
@@ -155,6 +193,7 @@ class MathCalc:
             (f'P_db: {self.P_db} кВт -- требуемая мощность двигателя'),
             (f'u: {self.u} общее передаточное число'),
             (f'u_op: {self.u_op} передаточное число открытой цилиндрической передачи'),
+            (f'i_reducer: {self.i_reducer} общее придаточное отношение редуктора'),
             (f'error: {self.error} описание ошибки'),
             ('==============================='),
         ])
