@@ -8,7 +8,7 @@ DataTable{
 }
 
 #container_calc {
-    margin-left: 22;
+    margin-left: 20;
     align: center middle;
     border: tall grey;
     width: 40;
