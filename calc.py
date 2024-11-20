@@ -29,7 +29,7 @@ class MathCalc:
                     {'count': 1, 'coef_gear': 0.95, 'open_or_closed': 'Open'}, 
                     {'count': 1, 'coef_gear': 0.99, 'open_or_closed': None}],
         i_our=None, P_db=None, u=None, T_dv=None, u_op=None, i_reducer=None, type_gear='Зубчатая цилиндрическая', 
-        type_reducer='Зубчатый цилиндрический', P_t=None):
+        type_reducer='Зубчатый цилиндрический', P_t=None, P_b=None):
 
         U_CP = 5.5 
 
@@ -164,7 +164,7 @@ class MathCalc:
             i_reducer = self.i_our / i_op
 
             if target_i_reducer_state[0] <= i_reducer <= target_i_reducer_state[1]:
-                self.i_reducer = i_reducer
+                self.i_reducer = i_reducer if i_reducer is None else i_reducer
                 correct_bool = True
                 break
             else:
@@ -177,10 +177,16 @@ class MathCalc:
             for gear in type_gear:
                 if gear['open_or_closed'] == 'Open':
                     nu_op = gear['coef_gear']
-            self.P_t = self.P_out / (0.99 * nu_op)
+            self.P_t = self.P_out / (0.99 * nu_op) if P_t is None else P_t
 
         elif scheme_type in ('В', 'Г'):
-            self.P_t = self.P_out / (0.99 * 0.98)
+            self.P_t = self.P_out / (0.99 * 0.98) if P_t is None else P_t
+
+        for gear in type_gear:
+                if gear['open_or_closed'] == 'Close':
+                    nu_zp = gear['coef_gear']
+        
+        self.P_b = self.P_t / nu_zp if P_b is None else P_b 
 
 
     def __repr__(self):
