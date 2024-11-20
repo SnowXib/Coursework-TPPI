@@ -183,11 +183,6 @@ class MathCalc:
             self.P_t = self.P_out / (0.99 * 0.98)
 
 
-        
-            
-            
-
-
     def __repr__(self):
         return '\n|-'.join([
             ('|-=============================='),
