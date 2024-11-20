@@ -24,11 +24,12 @@ class MathCalc:
         error (dict): информация о ошибках
     """
     def __init__(self, scheme_type='Б',Ft=3, V=0.85, D=315, P_out=None, n_out=None, t_out=None, P_ed=None, n_ed=None, n_our=None,
-        types_gear=[{'count': 1, 'coef_gear': 0.98},
-                    {'count': 1, 'coef_gear': 0.97}, 
-                    {'count': 1, 'coef_gear': 0.95}, 
-                    {'count': 1, 'coef_gear': 0.99}],
-        i_our=None, P_db=None, u=None, T_dv=None, u_op=None, i_reducer=None, type_gear='Зубчатая цилиндрическая', type_reducer='Зубчатый цилиндрический'):
+        types_gear=[{'count': 1, 'coef_gear': 0.98, 'open_or_closed': None},
+                    {'count': 1, 'coef_gear': 0.97, 'open_or_closed': 'Close'}, 
+                    {'count': 1, 'coef_gear': 0.95, 'open_or_closed': 'Open'}, 
+                    {'count': 1, 'coef_gear': 0.99, 'open_or_closed': None}],
+        i_our=None, P_db=None, u=None, T_dv=None, u_op=None, i_reducer=None, type_gear='Зубчатая цилиндрическая', 
+        type_reducer='Зубчатый цилиндрический', P_t=None):
 
         U_CP = 5.5 
 
@@ -171,6 +172,17 @@ class MathCalc:
         
         if not correct_bool:
             self.error['i_reducer'] = f'There is no suitable one i_op in range {i_op_state}'
+
+        if scheme_type in ('А', 'Б'):
+            for gear in type_gear:
+                if gear['open_or_closed'] == 'Open':
+                    nu_op = gear['coef_gear']
+            self.P_t = self.P_out / (0.99 * nu_op)
+
+        elif scheme_type in ('В', 'Г'):
+            self.P_t = self.P_out / (0.99 * 0.98)
+
+
         
             
             
@@ -194,6 +206,7 @@ class MathCalc:
             (f'u: {self.u} общее передаточное число'),
             (f'u_op: {self.u_op} передаточное число открытой цилиндрической передачи'),
             (f'i_reducer: {self.i_reducer} общее придаточное отношение редуктора'),
+            (f'P_t: {self.P_t} мощность тихоходного вала'),
             (f'error: {self.error} описание ошибки'),
             ('==============================='),
         ])
