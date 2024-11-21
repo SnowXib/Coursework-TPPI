@@ -29,7 +29,7 @@ class MathCalc:
                     {'count': 1, 'coef_gear': 0.95, 'open_or_closed': 'Open'}, 
                     {'count': 1, 'coef_gear': 0.99, 'open_or_closed': None}],
         i_our=None, P_db=None, u=None, T_dv=None, u_op=None, i_reducer=None, type_gear='Зубчатая цилиндрическая', 
-        type_reducer='Зубчатый цилиндрический', P_t=None, P_b=None):
+        type_reducer='Зубчатый цилиндрический', P_t=None, P_b=None, P_ed_tr=None):
 
         U_CP = 5.5 
 
@@ -87,6 +87,8 @@ class MathCalc:
             self.n_our = n_our
         else:
             self.n_our = n_our
+
+        self.P_ed_tr = self.P_out / self.n_our
 
         self.i_our = self.n_ed / self.n_out if i_our is None else i_our
         self.P_db = self.P_ed / self.n_our if P_db is None else P_db
@@ -173,20 +175,26 @@ class MathCalc:
         if not correct_bool:
             self.error['i_reducer'] = f'There is no suitable one i_op in range {i_op_state}'
 
+        for gear in types_gear:
+            if gear['open_or_closed'] == 'Open':
+                nu_op = gear['coef_gear']
+            if gear['open_or_closed'] == 'Close':
+                nu_zp = gear['coef_gear']
+
         if scheme_type in ('А', 'Б'):
-            for gear in type_gear:
-                if gear['open_or_closed'] == 'Open':
-                    nu_op = gear['coef_gear']
             self.P_t = self.P_out / (0.99 * nu_op) if P_t is None else P_t
 
         elif scheme_type in ('В', 'Г'):
             self.P_t = self.P_out / (0.99 * 0.98) if P_t is None else P_t
 
-        for gear in type_gear:
-                if gear['open_or_closed'] == 'Close':
-                    nu_zp = gear['coef_gear']
-        
         self.P_b = self.P_t / nu_zp if P_b is None else P_b 
+
+        if scheme_type in ('А', 'Б'):
+            if round(self.P_ed_tr / 1000, 2) != round(self.P_b / 0.98, 2):
+                self.error['P_ed'] = f'P_ed does not match the required value. Expected: {round(self.P_ed_tr / 1000, 2)} Received: {round(self.P_b / 0.98, 2)}'
+        elif scheme_type in ('В', 'Г'):
+            if round(self.P_ed_tr / 1000, 2) != round(self.P_b / nu_op, 2):
+                self.error['P_ed'] = f'P_ed does not match the required value. Expected: {round(self.P_ed_tr / 1000, 2)} Received: {round(self.P_b / nu_op, 2)}'
 
 
     def __repr__(self):
@@ -208,6 +216,7 @@ class MathCalc:
             (f'u_op: {self.u_op} передаточное число открытой цилиндрической передачи'),
             (f'i_reducer: {self.i_reducer} общее придаточное отношение редуктора'),
             (f'P_t: {self.P_t} мощность тихоходного вала'),
+            (f'P_b: {self.P_b} мощность быстроходного вала'),
             (f'error: {self.error} описание ошибки'),
             ('==============================='),
         ])
